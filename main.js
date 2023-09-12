@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                       <div class="d-flex align-items-center">
                         <div class="flex-grow-1" style="font-size: 1rem;">
                           <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i>
-                            <span class="ms-1">${wind} km/</span></div>
+                            <span class="ms-1">${wind} km/h</span></div>
                         <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"> ${humidity}% </span>
                         </div>`
     }
