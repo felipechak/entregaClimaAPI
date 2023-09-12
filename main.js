@@ -1,15 +1,47 @@
+const openWeatherAPIKey = "c86c0f7d64de1081b5206e39c0598a18"
 document.addEventListener("DOMContentLoaded",()=>{
-    const openWeatherAPIKey = "c86c0f7d64de1081b5206e39c0598a18"
     let searchInput = document.getElementById("searchInput")
     let cardContainer = document.getElementById("cardContainer")
-    
+    let pageBody = document.getElementsByTagName('body')[0]
+
+    const getBackground = (main) => {
+      switch (main) {
+        case "Clear":
+          return "clear.jpg"
+          break;
+        case "Clouds":
+          return "clouds.jpg"
+          break;
+        case "Stormy":
+          return "stormy.jpg"
+          break;
+        case "Rain":
+          return "rain.jpg"
+          break;
+        case "Snow":
+          return "rain.jpg"
+          break;
+        default:
+          return "default.jpg"
+          break;
+      }
+    }
+
     const getWeather = async (name) => {
-        cardContainer.innerHTML = ""  
+        cardContainer.innerHTML = ""
+        cardContainer.style.opacity = 0;
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${name}&units=metric&appid=${openWeatherAPIKey}`
           let response = await getJSONData(url)
           console.log(response)
+          var image = new Image();
+          // Image for transition
+          image.src = `img/${getBackground(response.data.weather[0].main)}`;
+          image.onload = function () {
+            pageBody.style.backgroundImage = `url(${image.src})`
+          };
           let cardText = getCardHTML(response.data.name, response.data.weather[0].main, response.data.wind.speed, Math.round(response.data.main.temp),response.data.main.humidity)
           cardContainer.innerHTML = cardText
+          cardContainer.style.opacity = 1;
           return response
       }
     const getCardHTML = (cityName,forecast,wind,temp,humidity,) => {
@@ -54,11 +86,9 @@ document.addEventListener("DOMContentLoaded",()=>{
         });
     }
 
-    let searchTerm = "Paris"
-
-    
-
+    //let searchTerm = "Paris"
+    getWeather("Montevideo")
     document.getElementsByTagName("button")[0].addEventListener("click", ()=>{
-      getWeather(document.getElementById("searchInput").value)
+      getWeather(searchInput.value)
     });
 })
